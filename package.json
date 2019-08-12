@@ -1,0 +1,26 @@
+{
+  "name": "gatsby-large-scale-preview-experiment",
+  "private": true,
+  "description": "Experiment how to handle thousands of pages in Gatsby in preview mode (dev server + ENABLE_GATSBY_REFRESH_ENDPOINT)",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "develop:debug": "node --inspect node_modules/.bin/gatsby develop",
+    "webhook:new-item": "node scripts/webhook.js",
+    "webhook:full-sync": "curl -d '{\"touchAll\":true}' -H \"Content-Type: application/json\" -X POST http://localhost:8000/__refresh",
+    "webhook:empty": "curl -X POST http://localhost:8000/__refresh",
+    "start": "npm run develop",
+    "serve": "gatsby serve"
+  },
+  "dependencies": {
+    "gatsby": "^2.13.45"
+  },
+  "devDependencies": {
+    "dotenv": "^8.0.0",
+    "gatsby-source-filesystem": "^2.1.9",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}
