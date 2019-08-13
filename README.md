@@ -1,6 +1,14 @@
 # Gatsby & Preview in a large scale environment.
 
-This is an experiment. It's based on the preview/webhook parts of gatsby's e2e [test project](https://github.com/gatsbyjs/gatsby/tree/master/e2e-tests/development-runtime) (via @DSchau).
+We are working on a rather large Gatsby Installation with an expected set of 50k to 100k pages derived single internal node type.
+A full build will be triggered from time to time and we are already excited to learn about the future incremental build feature.
+
+That being said, our current challenge is related to serving a preview — not the actual build. To be prepared for the technical challenges, we dug through many package sources including the core of Gatsby itself and we read all of the excellent documentation about the "Gatsby Internals". Kudos for that awesome summary! Things are still not 100% clear but the image is already starting to build up.
+
+We already achieved a working prototype by using the `__refresh` endpoint activated by `ENABLE_GATSBY_REFRESH_ENDPOINT`. This was a really nice experience,
+how Gatsby handled any webhook callback (empty) and rebuild everything. It got interesting when we scaled things up. We tried to build 5000 pages and it took many minutes. I save you the details of that installation but this brought us back to plan things more thoroughly. This experiment is the summary of our actions.
+
+It's based on the preview/webhook parts of gatsby's e2e [test project](https://github.com/gatsbyjs/gatsby/tree/master/e2e-tests/development-runtime) (via @DSchau).
 
 The core question to answer:
 > How can we add/update/delete pages for specific nodes to achieve a good update performance in preview mode.
