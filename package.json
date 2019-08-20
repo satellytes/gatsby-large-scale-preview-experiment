@@ -11,6 +11,8 @@
     "webhook:new-item": "node scripts/webhook.js",
     "webhook:full-sync": "curl -d '{\"touchAll\":true}' -H \"Content-Type: application/json\" -X POST http://localhost:8000/__refresh",
     "webhook:empty": "curl -X POST http://localhost:8000/__refresh",
+    "webhook:debug1": "curl -d '{\"cmd\":\"d1\"}' -H \"Content-Type: application/json\" -X POST http://localhost:8000/__refresh",
+    "webhook:debug2": "curl -d '{\"cmd\":\"d2\"}' -H \"Content-Type: application/json\" -X POST http://localhost:8000/__refresh",
     "start": "npm run develop",
     "serve": "gatsby serve"
   },

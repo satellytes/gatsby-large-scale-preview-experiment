@@ -1,67 +1,56 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const path = require(`path`)
-const { createFilePath } = require(`gatsby-source-filesystem`)
-
-exports.onCreateNode = function onCreateNode({ actions, node, boundActionCreators }) {
-  const { createPage } = boundActionCreators;
-
-  if (node.internal.type === `FakeData`) {
-    console.log('create new page');
-
-    const previewItemTemplate = path.resolve(`src/templates/preview-item.js`)
-
-    createPage({
-      path: node.fields.slug,
-      component: previewItemTemplate,
-      context: {
-        slug: node.fields.slug, title: node.title
-      },
-    })
-  }
+exports.onCreateNode = function onCreateNode({ actions, node }) {
+  console.log('onCreateNode', node.internal.type);
 }
 
+exports.createPagesStatefully = async function({reporter, emitter}) {
+  console.log('---createPagesStatefully', typeof emitter);
+}
 
 exports.createPages = async function createPages({
   actions: { createPage }, reporter, graphql
 }) {
-  const { data } = await graphql(`
-    {
-      allFakeData {
-        nodes {
-          title
-          fields {
-            slug
-          }
-        }
-      }
-    }
-  `)
 
-  const previewItemTemplate = path.resolve(`src/templates/preview-item.js`)
+  console.log('create pages');
 
-  activity = reporter.activityTimer(`create pages`)
-  activity.start();
+  // const { data } = await graphql(`
+  //   {
+  //     allFakeData {
+  //       nodes {
+  //         title
+  //         fields {
+  //           slug
+  //         }
+  //       }
+  //     }
+  //   }
+  // `)
+
+  // const previewItemTemplate = path.resolve(`src/templates/preview-item.js`)
+
+  // activity = reporter.activityTimer(`create pages`)
+  // activity.start();
 
 
-  const totalPages = data.allFakeData.nodes.length;
+  // const totalPages = data.allFakeData.nodes.length;
 
-  data.allFakeData.nodes.forEach((node, index) => {
-    const { fields: {slug}, title } = node;
-    activity.setStatus(
-      `Creating ${index + 1} of ${totalPages} total pages`
-    );
+  // data.allFakeData.nodes.forEach((node, index) => {
+  //   const { fields: {slug}, title } = node;
+  //   activity.setStatus(
+  //     `Creating ${index + 1} of ${totalPages} total pages`
+  //   );
 
-    createPage({
-      path: slug,
-      component: previewItemTemplate,
-      context: {
-        slug, title
-      },
-    })
-  });
+  //   createPage({
+  //     path: slug,
+  //     component: previewItemTemplate,
+  //     context: {
+  //       slug, title
+  //     },
+  //   })
+  // });
 
-  activity.end();
+  // activity.end();
 
 }

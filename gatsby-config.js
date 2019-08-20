@@ -7,6 +7,7 @@
 module.exports = {
   /* Your site config here */
   plugins: [
-    'gatsby-source-fake-data'
+    // 'gatsby-source-fake-data',
+    'gatsby-another-fake-data'
   ]
 }
