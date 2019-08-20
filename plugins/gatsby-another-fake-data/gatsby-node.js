@@ -2,8 +2,21 @@
 const api = require('./api');
 
 exports.onCreateNode = function onCreateNode({ actions, node }) {
-  if(node.internal.type === api.NODE_TYPE) {
-    console.log('xxx--- onCreateNode', node.internal.type);
+  if(api.ownsType(node.internal.type)) {
+    if(node.internal.type === api.NODE_TYPE_A) {
+      actions.createNodeField({
+        name: `slug`,
+        value: `/test-a/${node.uuid}`,
+        node,
+      })
+    }else {
+      actions.createNodeField({
+        name: `slug`,
+        value: `/test-b/${node.uuid}`,
+        node,
+      })
+    }
+
   }
 }
 
@@ -14,6 +27,8 @@ exports.sourceNodes = async function sourceNodes({
   createNodeId,
   createContentDigest,
   getNode,
+  getNodes,
+  getNodesByType,
   reporter,
   webhookBody,
 }) {
@@ -23,28 +38,54 @@ exports.sourceNodes = async function sourceNodes({
   const helpers = {
     createNodeId,
     createContentDigest,
+    getNode,
+    getNodes,
+    getNodesByType
   }
 
   if (webhookBody && webhookBody.cmd) {
     console.log('debug webhook command:', webhookBody.cmd);
-    let data = null;
 
-    if(webhookBody.cmd === 'd1') {
+    switch(webhookBody.cmd) {
+      case 'sync': api.sync({helpers}); break;
+      case 'd3':
+        console.log('update only a single node (type A')
+        // update only a single node (type A)
+        const nodesA = await api.createSamples({helpers, data: 'only a single update on a', nodeType: api.NODE_TYPE_A});
+        nodesA.forEach(node => createNode(node));
+        break;
+      case 'd4':
+        console.log('update only a single node (type B')
+        // update only a single node (type A)
+        const nodesB = await api.createSamples({helpers, data: 'only a single update on b', nodeType: api.NODE_TYPE_B});
+        nodesB.forEach(node => createNode(node));
+        break;
+      case 'd5':
+        console.log('update only a single node (type B')
+        // update only a single node (type A)
+        const newNode = await api.createNode({helpers, data: 'a fresh new b page', nodeType: api.NODE_TYPE_B, uuid: 9999});
+        createNode(newNode);
 
+        break;
+      default:
+        updateNodesAB({data: webhookBody.cmd, helpers});
     }
-
-    data = webhookBody.cmd;
-
-    const nodes = await api.createSamples({helpers, data});
-    nodes.forEach(node => createNode(node));
-
-  }else {
-
-
+  } else {
+    // empty/startup/initial
+    updateNodesAB({data: 'initial', helpers})
   }
 
+async function updateNodesAB({data, helpers}) {
+  console.log('a')
+  const nodesA = await api.createSamples({helpers, data, nodeType: api.NODE_TYPE_A, count: 3});
+  nodesA.forEach(node => createNode(node));
 
-  console.log('done with samples');
+  console.log('b')
+  const nodesB = await api.createSamples({helpers, data, nodeType: api.NODE_TYPE_B, count: 3});
+  nodesB.forEach(node => createNode(node));
+}
+
+console.log('done with samples');
 
   // if(firstExec) {
   //   firstExec = false;

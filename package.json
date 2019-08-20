@@ -13,6 +13,10 @@
     "webhook:empty": "curl -X POST http://localhost:8000/__refresh",
     "webhook:debug1": "curl -d '{\"cmd\":\"d1\"}' -H \"Content-Type: application/json\" -X POST http://localhost:8000/__refresh",
     "webhook:debug2": "curl -d '{\"cmd\":\"d2\"}' -H \"Content-Type: application/json\" -X POST http://localhost:8000/__refresh",
+    "webhook:d3": "curl -d '{\"cmd\":\"d3\"}' -H \"Content-Type: application/json\" -X POST http://localhost:8000/__refresh",
+    "webhook:d4": "curl -d '{\"cmd\":\"d4\"}' -H \"Content-Type: application/json\" -X POST http://localhost:8000/__refresh",
+    "webhook:d5": "curl -d '{\"cmd\":\"d5\"}' -H \"Content-Type: application/json\" -X POST http://localhost:8000/__refresh",
+    "webhook:sync": "curl -d '{\"cmd\":\"sync\"}' -H \"Content-Type: application/json\" -X POST http://localhost:8000/__refresh",
     "start": "npm run develop",
     "serve": "gatsby serve"
   },
