@@ -12,42 +12,42 @@ const previewItemTemplateB = path.resolve(`src/templates/preview-item-b.js`)
 
 
 exports.onCreateNode = function onCreateNode({ actions, node, store }) {
-  const {createPage} = actions;
-  const state = store.getState();
+  // const {createPage, getNodeAndSavePathDependency} = actions;
+  // const state = store.getState();
 
-  if(createPagesStatefullyRAN) {
-    console.log('node');
-  }
+  // if(createPagesStatefullyRAN) {
+  //   console.log('node');
+  // }
 
-  if(createPagesStatefullyRAN && apiFakeData.ownsType(node.internal.type)) {
-    console.log(node.internal.type, store);
+  // if(createPagesStatefullyRAN && apiFakeData.ownsType(node.internal.type)) {
+  //   console.log(node.internal.type, store);
 
-    if(node.internal.type === apiFakeData.NODE_TYPE_B) {
-      console.log('found new node of interest -- type a. creating a page');
+  //   if(node.internal.type === apiFakeData.NODE_TYPE_B) {
+  //     console.log('found new node of interest -- type a. creating a page');
 
-      const { fields: {slug}, title } = node;
-      console.log({slug, title});
+  //     const { fields: {slug}, title } = node;
+  //     console.log({slug, title});
 
-      createPage({
-        path: slug,
-        component: previewItemTemplateA,
-        context: {
-          slug, title, mypage: true
-        }
-      })
+  //     createPage({
+  //       path: slug,
+  //       component: previewItemTemplateA,
+  //       context: {
+  //         slug, title, mypage: true
+  //       }
+  //     })
 
-      // getNodeAndSavePathDependency(node.id, slug);
+  //     // getNodeAndSavePathDependency(node.id, slug);
 
 
-      // createPage({
-      //   path: slug,
-      //   component: previewItemTemplateA,
-      //   context: {
-      //     slug, title, mypage: true
-      //   }
-      // })
-    }
-  }
+  //     // createPage({
+  //     //   path: slug,
+  //     //   component: previewItemTemplateA,
+  //     //   context: {
+  //     //     slug, title, mypage: true
+  //     //   }
+  //     // })
+  //   }
+  // }
 }
 
 
@@ -55,7 +55,7 @@ exports.onPreExtractQueries = function() {
   console.log('onPreExtractQueries');
 }
 
-exports.createPagesStatefully = async function createPages({
+exports.createPages = async function createPages({
   actions: { createPage }, reporter, graphql
 }) {
 

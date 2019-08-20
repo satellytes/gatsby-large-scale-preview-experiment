@@ -63,7 +63,7 @@ exports.sourceNodes = async function sourceNodes({
       case 'd5':
         console.log('update only a single node (type B')
         // update only a single node (type A)
-        const newNode = await api.createNode({helpers, data: 'a fresh new b page', nodeType: api.NODE_TYPE_B, uuid: 9999});
+        const newNode = await api.createNode({helpers, data: 'a fresh new b page', nodeType: api.NODE_TYPE_B, uuid: 99999});
         createNode(newNode);
 
         break;
@@ -77,11 +77,11 @@ exports.sourceNodes = async function sourceNodes({
 
 async function updateNodesAB({data, helpers}) {
   console.log('a')
-  const nodesA = await api.createSamples({helpers, data, nodeType: api.NODE_TYPE_A, count: 3});
+  const nodesA = await api.createSamples({helpers, data, nodeType: api.NODE_TYPE_A, count: 5000});
   nodesA.forEach(node => createNode(node));
 
   console.log('b')
-  const nodesB = await api.createSamples({helpers, data, nodeType: api.NODE_TYPE_B, count: 3});
+  const nodesB = await api.createSamples({helpers, data, nodeType: api.NODE_TYPE_B, count: 5000});
   nodesB.forEach(node => createNode(node));
 }
 
